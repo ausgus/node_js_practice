@@ -1,4 +1,5 @@
-const express = require("express"); //익스프레스 불러오기
+import express from "express"; //익스프레스 불러오기
+
 const app = express(); //app이라는 이름을 가진 서버 생성
 
 //익스프레스는 그냥 실행만하면 서버가 생성됌
