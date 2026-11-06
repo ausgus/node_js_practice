@@ -1,27 +1,15 @@
 import express from "express";
 export const router = express.Router();
 
+import { getAllContacts, createContact, getContact, updateContact, deleteContact } from "../controllers/contactController.js";
+
+
 router.route("/")
-  .get((req, res) => {
-    res.send("Contacts Page");
-  })
-  .post((req, res) => {
-    console.log(req.body);
-    const { name, email, phone } = req.body;
-    if (!name || !email || !phone) {
-      return res.send("필수 값이 입력되지 않았습니다.");
-    }
-    res.send("Create Contacts");
-  })
+  .get(getAllContacts)
+  .post(createContact)
 
 
 router.route("/:id")
-  .get((req, res) => {
-    res.send(`View Contact for ID : ${req.params.id}`);
-    })
-  .put((req, res) => {
-    res.send(`Update Contact for ID : ${req.params.id}`);
-    })
-  .delete((req, res) => {
-    res.send(`Delete Contacts for ID : ${req.params.id}`);
-  });
+  .get(getContact)
+  .put(updateContact)
+  .delete(deleteContact);
