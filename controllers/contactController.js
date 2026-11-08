@@ -12,12 +12,17 @@ import Contact from "../models/contactModel.js";
 //GET / contacts
 export const getAllContacts = asyncHandler( async (req, res) => {
   const contacts = await Contact.find();
-  const users = [
-    { name : "hong", "email" : "hong@aaa.aaa", phone : "01012345678"},
-    { name : "jeong", "email" : "joeng@aaa.aaa", phone : "01098765432"}
-  ];
-  res.render("getAll", { users :  users });
+  res.render("index", { contacts : contacts });
 });
+
+
+//View add Contact form
+//GET /contacts/add
+
+export const addContactForm = (req, res) => {
+  res.render("add");
+}
+
 
 
 //Create Contacts
@@ -35,15 +40,17 @@ export const createContact = asyncHandler( async(req, res) => {
     email,
     phone
   });
-  res.send("Create Contacts");
+  res.redirect("/contacts");
 });
+
+
 
 //Get the Contact
 //GET / contacts / id
 
 export const getContact = asyncHandler( async(req, res) => {
   const contact = await Contact.findById(req.params.id);
-  res.send(contact);
+  res.render("update", { contact : contact });
 });
 
 //Update the Contact
@@ -65,21 +72,14 @@ export const updateContact = asyncHandler( async(req, res) => {
 
   contact.save(); // 변경된 정보 저장
 
-  res.json(contact);
+  res.redirect("/contacts");
 });
 
 //Delete the Contact
 //DELETE / contacts / id
 
 export const deleteContact = asyncHandler( async(req, res) => {
-  const id = req.params.id;
-  const contact = await Contact.findById(id);
+  await Contact.findByIdAndDelete(req.params.id);
 
-  if (!contact) {
-    throw new error("Contact not found");
-  }
-
-  await Contact.deleteOne();
-
-  res.send("Deleted");
+  res.redirect("/contacts");
 });
