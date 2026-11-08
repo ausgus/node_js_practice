@@ -1,5 +1,6 @@
 import express from "express"; //익스프레스 불러오기
 import { router } from "./routes/contactRoutes.js"; //라우터 파일에서 라우트코드 불러오기
+import { router as loginRouter } from "./routes/loginRoute.js";
 import dbConnect from "./config/dbconnect.js"; //db 모듈 가져오기
 import methodOverride from "method-override";
 
@@ -15,14 +16,12 @@ app.use(express.static("./public"));
 
 app.use(methodOverride("_method"));
 
-app.get("/", (req, res) => {  //서버이름 뒤에 method type을 적고 요청경로를 지정한 후 콜백함수로 무엇을 할지 정해주기
-  res.send('Hello, Node!'); //===http.write 
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));
 
 app.use("/contacts", router);
+app.use("/", loginRouter);
 
 
 app.listen(3000, () => {
